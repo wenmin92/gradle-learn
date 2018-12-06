@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id "com.github.spotbugs" version "1.6.5"
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation 'com.android.tools.build:gradle:3.2.1'
+
+    implementation 'commons-io:commons-io:2.6'
+}
+
+task list {
+    doLast {
+        File srcDir
+
+        // Create a file collection using a closure
+        def collection = files { srcDir.listFiles() }
+
+        srcDir = file('src')
+        println "Contents of $srcDir.name"
+        collection.collect { relativePath(it) }.sort().each { println it }
+
+        srcDir = file('src2')
+        println "Contents of $srcDir.name"
+        collection.collect { relativePath(it) }.sort().each { println it }
+    }
+}
